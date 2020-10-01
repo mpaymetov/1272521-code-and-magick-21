@@ -55,6 +55,11 @@ var renderText = function (ctx, msg, positionX, positionY) {
   ctx.fillText(msg, positionX, positionY);
 };
 
+var getRandom100 = function () {
+  var result = Math.round(100 * Math.random());
+  return result;
+}
+
 window.renderStatistics = function (ctx, players, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, SHADOW_COLOR);
   renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
@@ -65,9 +70,11 @@ window.renderStatistics = function (ctx, players, times) {
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < players.length; i++) {
-    var currentPlayerBarHeight = (BAR_HEIGHT * times[i]) / maxTime;
-    var randomColor = 'hsl(240, ' + 100 * Math.random() + '%, 50%)';
-    var fillColor = (players[i] === SELF_PLAYER) ? SELF_PLAYER_COLOR : randomColor;
+    var currentPlayerName = players[i];
+    var currentPlayerTime = times[i];
+    var currentPlayerBarHeight = (BAR_HEIGHT * currentPlayerTime) / maxTime;
+    var randomColor = 'hsl(240, ' + getRandom100() + '%, 50%)';
+    var fillColor = (currentPlayerName === SELF_PLAYER) ? SELF_PLAYER_COLOR : randomColor;
     var barPositionX = CLOUD_X + BAR_OFFSET - GAP + (BAR_OFFSET + BAR_WIDTH) * i;
     var barPositionY = CLOUD_Y + CLOUD_HEIGHT - BAR_OFFSET + GAP - currentPlayerBarHeight;
 
@@ -76,8 +83,8 @@ window.renderStatistics = function (ctx, players, times) {
     var playerTimePositionY = CLOUD_Y + CLOUD_HEIGHT - 2 * TEXT_HEIGHT - currentPlayerBarHeight - GAP;
 
     renderPlayerStatistic(ctx, barPositionX, barPositionY, currentPlayerBarHeight, fillColor);
-    renderText(ctx, players[i], playerTextPositionX, playerNamePositionY);
-    renderText(ctx, Math.round(times[i]), playerTextPositionX, playerTimePositionY);
+    renderText(ctx, currentPlayerName, playerTextPositionX, playerNamePositionY);
+    renderText(ctx, Math.round(currentPlayerTime), playerTextPositionX, playerTimePositionY);
   }
 };
 
