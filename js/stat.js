@@ -58,7 +58,7 @@ var renderText = function (ctx, msg, positionX, positionY) {
 var getRandom100 = function () {
   var result = Math.round(100 * Math.random());
   return result;
-}
+};
 
 window.renderStatistics = function (ctx, players, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, SHADOW_COLOR);
