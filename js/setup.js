@@ -45,10 +45,15 @@ const getRandom = function (number = 1) {
   return result;
 };
 
+const getRandomArray = function (array) {
+  const element = array[getRandom(array.length - 1)];
+  return element;
+};
+
 const createWizard = function () {
-  const wizardName = NAMES[getRandom(NAMES.length - 1)] + ' ' + SURNAMES[getRandom(SURNAMES.length - 1)];
-  const wizardCoatColor = COAT_COLORS[getRandom(COAT_COLORS.length - 1)];
-  const wizardEyesColor = EYES_COLORS[getRandom(EYES_COLORS.length - 1)];
+  const wizardName = getRandomArray(NAMES) + ' ' + getRandomArray(SURNAMES);
+  const wizardCoatColor = getRandomArray(COAT_COLORS);
+  const wizardEyesColor = getRandomArray(EYES_COLORS);
   const wizard = {
     name: wizardName,
     coatColor: wizardCoatColor,
@@ -65,7 +70,8 @@ const createWizards = function () {
   return wizards;
 };
 
-const wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('div');
+const wizardTemplateBlock = document.querySelector('#similar-wizard-template');
+const wizardTemplate = wizardTemplateBlock.content.querySelector('div');
 
 const renderWizard = function (wizard) {
   let element = wizardTemplate.cloneNode(true);
@@ -75,18 +81,20 @@ const renderWizard = function (wizard) {
   return element;
 };
 
-const renderWizards = function () {
+const renderWizards = function (wizardCount) {
   const similarListContainer = document.querySelector('.setup-similar-list');
   const wizards = createWizards();
   let fragment = document.createDocumentFragment();
-  for (let i = 0; i < WIZARD_COUNT; i++) {
-    fragment.appendChild(renderWizard(wizards[i]));
+  for (let i = 0; i < wizardCount; i++) {
+    const currentWizard = wizards[i];
+    const currentWizardElement = renderWizard(currentWizard);
+    fragment.appendChild(currentWizardElement);
   }
   similarListContainer.appendChild(fragment);
 };
 
 const showSimilarWizards = function () {
-  renderWizards();
+  renderWizards(WIZARD_COUNT);
   const similarListBlock = document.querySelector('.setup-similar');
   similarListBlock.classList.remove('hidden');
 };
